@@ -1,4 +1,4 @@
-# .Net-Design-Patterns
+# The 23 Gang of Four (GoF) patterns
 
 ## Creational Patterns
 [Abstract Factory](https://github.com/saeb-panahifar/.Net-Design-Patterns/blob/master/Abstract%20Factory.md)
