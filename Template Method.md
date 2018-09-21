@@ -21,19 +21,40 @@ public enum Priority
         Low = 3
 }
 
-public abstract class Task
+public interface ITask
+{
+        void Start();
+}
+
+public abstract class Task : ITask
 {
         public abstract Priority Priority { get; }
-        public abstract void Run();
+
+        void ITask.Start()
+        {
+            if (HasAccess())
+            {
+                OnStart();
+            }
+        }
+
+        protected bool HasAccess()
+        {
+            //if user access to run this task true, otherwise false.
+            return true;
+        }
+
+        protected abstract void OnStart();
+
 }
 
 public class ATask : Task
 {
         public override Priority Priority => Priority.Hight;
 
-        public override void Run()
+        protected override void OnStart()
         {
-            // code here.
+            Console.WriteLine("ATask Run.");
         }
 }
 
@@ -41,12 +62,11 @@ public class BTask : Task
 {
         public override Priority Priority => Priority.Low;
 
-        public override void Run()
+        protected override void OnStart()
         {
-            // code here.
+            Console.WriteLine("BTask Run.");
         }
 }
-
 
 public sealed class TaskRunner
 {
@@ -60,9 +80,9 @@ public sealed class TaskRunner
         {
             RegisterAllTaskSubclass();
 
-            foreach (Task item in tasks.OrderBy(a => a.Priority.GetHashCode()))
+            foreach (ITask item in tasks.OrderBy(a => a.Priority.GetHashCode()))
             {
-                item.Run();
+                item.Start();
             }
         }
 
