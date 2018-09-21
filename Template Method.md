@@ -1,5 +1,5 @@
 
-Template Method lets subclasses redefine certain steps of an algorithm
+- Template Method lets subclasses redefine certain steps of an algorithm
 without changing the Algorithm's Structure. 
 
 **Example in the .Net framework**:
