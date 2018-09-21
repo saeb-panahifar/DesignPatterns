@@ -12,3 +12,83 @@ The most common example is the Asp.Net Page Life Cycle. The Page Life Cycle has 
 **AbstractClass**:  Defines abstract primitive operations that concrete subclasses define to implement steps of an algorithm.
 
 **ConcreteClass**:  Implements the primitive operations ot carry out subclass-specific steps of the algorithm.
+
+```c#
+public enum Priority
+{
+        Hight = 1,
+        Medium = 2,
+        Low = 3
+}
+
+public abstract class Task
+{
+        public abstract Priority Priority { get; }
+        public abstract void Run();
+}
+
+public class ATask : Task
+{
+        public override Priority Priority => Priority.Hight;
+
+        public override void Run()
+        {
+            // code here.
+        }
+}
+
+public class BTask : Task
+{
+        public override Priority Priority => Priority.Low;
+
+        public override void Run()
+        {
+            // code here.
+        }
+}
+
+
+public sealed class TaskRunner
+{
+        private readonly List<Task> tasks = new List<Task>();
+
+        public TaskRunner()
+        {
+        }
+
+        public void Run()
+        {
+            RegisterAllTaskSubclass();
+
+            foreach (Task item in tasks.OrderBy(a => a.Priority.GetHashCode()))
+            {
+                item.Run();
+            }
+        }
+
+        private void RegisterAllTaskSubclass()
+        {
+            var taskType = AppDomain.CurrentDomain.GetAssemblies()
+                                  .SelectMany(assembly => assembly.GetTypes())
+                                  .Where(type => type.IsSubclassOf(typeof(Task)));
+
+            foreach (Type item in taskType)
+            {
+                tasks.Add((Task)Activator.CreateInstance(item));
+            }
+        }
+}
+    
+class Program
+{
+        static void Main(string[] args)
+        {
+
+            var taskRunner = new TaskRunner();
+            taskRunner.Run();
+
+            Console.ReadLine();
+        }
+}
+    
+```
