@@ -26,6 +26,7 @@ public interface ITask
         void Start();
 }
 
+//AbstractClass
 public abstract class Task : ITask
 {
         public abstract Priority Priority { get; }
@@ -48,6 +49,7 @@ public abstract class Task : ITask
 
 }
 
+//ConcreteClass
 public class ATask : Task
 {
         public override Priority Priority => Priority.Hight;
@@ -58,6 +60,7 @@ public class ATask : Task
         }
 }
 
+//ConcreteClass
 public class BTask : Task
 {
         public override Priority Priority => Priority.Low;
